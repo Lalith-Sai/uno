@@ -36,7 +36,21 @@ Player::Player() {
 void Player::DisplayCards() {
     for (int i = 0; i < 7; i++) {
         int tempVal = returnCard(i);
-        std::cout << tempVal << " ";
+        
+        std::cout << "--------------\n";
+            for (int j = 0; j < 8; j++) {
+                    if (j != 4)
+                        std::cout << "|            |\n";
+                    else {      
+                        std::cout << "|     " << tempVal;
+                        if (tempVal >= 10) {
+                            std::cout <<  "     |\n";
+                        } else {
+                            std::cout <<  "      |\n";
+                        }
+                    } 
+            }
+        std::cout << "--------------\n";   
     }
     std::cout << "@#";
 }
