@@ -16,7 +16,7 @@ int main() {
     Player playerOne;
     Player playerTwo;
 
-    while (gameProgress) {
+    do {
         std::cout << "          Uno         " << std::endl;
         std::cout << "----------------------" << std::endl;
         
@@ -27,6 +27,9 @@ int main() {
             if (tmpVal == 'Q') {
                 displayHand(playerOne);
             }
+
+            std::cout << "\n\n Enter card number to place: ";
+            gameProgress = false;
         }
         else {
             std::cout << "PLAYER 2 - PRESS Q TO VIEW YOUR HAND" << std::endl;
@@ -37,7 +40,7 @@ int main() {
             }
         }
 
-    }
+    }while (gameProgress);
     
     
 
