@@ -6,6 +6,12 @@ void displayHand(Player player) {
     player.DisplayCards();
 }
 
+void placeCard(Player player) {
+    int tempVal;
+    std::cout << "\n\n Enter card number to place: ";
+    std::cin >> tempVal;
+    //Accept card input and place deck
+}
 
 
 int main() {
@@ -26,9 +32,9 @@ int main() {
 
             if (tmpVal == 'Q') {
                 displayHand(playerOne);
+                placeCard(playerOne);
             }
 
-            std::cout << "\n\n Enter card number to place: ";
             gameProgress = false;
         }
         else {
@@ -37,6 +43,7 @@ int main() {
 
             if (tmpVal == 'Q') {
                 displayHand(playerTwo);
+                placeCard(playerTwo);
             }
         }
 
