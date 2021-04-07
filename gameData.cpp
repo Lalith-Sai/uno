@@ -8,6 +8,9 @@ class Cards {
         std::vector<char> cardColor;
     public:
         Cards();
+        std::vector<int> returnCardHand() {
+            return cardHand;
+        }
         int returnCard(int i) {
             return cardHand.at(i);
         }
@@ -16,18 +19,36 @@ class Cards {
         }
 };
 
-
-
-
 class Player: public Cards {
-        // Player score, highest no of cards
+        // Player score, highest no of cards, stats
     public:
         Player();
         void DisplayCards();
               
 };
 
+//------------- Card deck Linked list -------------
 
+struct node {
+    int cardNumber;
+    char cardColor;
+    node *next;
+};
+
+class Deck {
+    node *head, *tail;
+    public:
+        Deck() {
+            head = NULL;
+            tail = NULL;
+        }
+        void PlaceCard(int a, int b);
+        void Display() {
+            std::cout << head->cardNumber;
+        }
+};
+
+//------------- FUNCTIONS ---------------
 
 Cards::Cards() {
     srand (time(NULL));
@@ -48,9 +69,6 @@ Cards::Cards() {
         }
     }
 }
-
-
-
 
 Player::Player() {
     
@@ -73,17 +91,25 @@ void Player::DisplayCards() {
             color.append("\x1b[33m");
         }
 
+        if (tempVal >= 10) {
+            color.append("\x1b[0m");
+        }
         std::cout << color + "--------------" << std::endl;
             for (int j = 0; j < 8; j++) {
                 if (j != 4)
                     std::cout << "|            |" << std::endl;
                 else {      
-                    std::cout << "|     " << tempVal;
-                    if (tempVal >= 10) {
-                        std::cout <<  "     |" << std::endl;
-                    } 
+                    if (tempVal == 10) {
+                        std::cout <<  "|     +2     |" << std::endl;
+                    }
+                    else if (tempVal == 11) {
+                        std::cout <<  "|     +4     |" << std::endl;
+                    }
+                    else if (tempVal == 12) {
+                        std::cout <<  "|Color change|" << std::endl;
+                    }        
                     else {
-                        std::cout <<  "      |" << std::endl;
+                        std::cout <<  "|     " << tempVal << "      |" << std::endl;
                     }
                 } 
             }
@@ -91,3 +117,19 @@ void Player::DisplayCards() {
     } 
     std::cout << "\x1b[0m@@@";
 }
+
+void Deck::PlaceCard(int a, int b) {
+        node *tempVal = new node;
+        tempVal->cardNumber = a;
+        tempVal->cardColor = b;
+        tempVal->next = NULL;
+
+        if(head == NULL) {
+            head = tempVal;
+            tail = tempVal;
+        }
+        else {
+            tail->next = tempVal;
+            tail = tail->next;
+        }
+    }
