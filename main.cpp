@@ -6,6 +6,11 @@ void displayHand(Player player) {
     player.DisplayCards();
 }
 
+void showDeck(Deck card) {
+    std::cout << "--DECK--" << std::endl;
+    card.DisplayTopCard();
+}
+
 void placeCard(Player player, Deck card) {
     int tempVal;
     std::cout << "\n\nEnter card number to place: ";
@@ -14,26 +19,25 @@ void placeCard(Player player, Deck card) {
     for (int i = 0; i < player.returnCardHand().size(); i++) {
         if (player.returnCardHand().at(i) == tempVal) {
             card.PlaceCard(player.returnCard(i), player.returnColor(i));
-            card.Display();
+            std::cout << "You played: " << std::endl;
+            showDeck(card);
             break;
         }
         else if (i == player.returnCardHand().size() - 1) {
-            std::cout << "ERROR: Enter correct value.";
+            std::cout << "ERROR: Enter correct value." << std::endl;
             placeCard(player, card);
         }
     }
 
 }
 
-void showDeck() {
-    std::cout << "--DECK--" << std::endl;
-}
+
 
 
 int main() {
     bool gameProgress = true;
     bool playerOneTurn = true;
-    char tmpVal;
+    char tempVal;
 
     Player playerOne;
     Player playerTwo;
@@ -45,11 +49,11 @@ int main() {
         
         if (playerOneTurn) {
             std::cout << "PLAYER 1 - PRESS Q TO VIEW YOUR HAND: ";
-            std::cin >> tmpVal;
+            std::cin >> tempVal;
 
-            if (tmpVal == 'Q') {
+            if (tempVal == 'Q') {
                 displayHand(playerOne);
-                showDeck();
+                showDeck(card);
                 placeCard(playerOne, card);
             }
 
@@ -57,11 +61,11 @@ int main() {
         }
         else {
             std::cout << "PLAYER 2 - PRESS Q TO VIEW YOUR HAND: ";
-            std::cin >> tmpVal;
+            std::cin >> tempVal;
 
-            if (tmpVal == 'Q') {
+            if (tempVal == 'Q') {
                 displayHand(playerTwo);
-                showDeck();
+                showDeck(card);
                 placeCard(playerTwo, card);
             }
         }
