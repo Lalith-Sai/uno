@@ -1,69 +1,55 @@
-#include <iostream>
 #include "gameData.cpp"
 
 
 void displayHand(Player player) {
-    player.DisplayCards();
+    player.DisplayDeck();
 }
 
-void placeCard(Player player, Deck card) {
+void placeCard(Player player) {
     int tempVal;
     std::cout << "\n\nEnter card number to place: ";
-    std::cin >> tempVal;
-    //ERROR: CANNOT INPUT CHARACTER VARIABLE - SEGMATION FAULT
-    for (int i = 0; i < player.returnCardHand().size(); i++) {
-        if (player.returnCardHand().at(i) == tempVal) {
-            card.PlaceCard(player.returnCard(i), player.returnColor(i));
-            card.Display();
-            break;
-        }
-        else if (i == player.returnCardHand().size() - 1) {
-            std::cout << "ERROR: Enter correct value.";
-            placeCard(player, card);
-        }
-    }
 
 }
-
-void showDeck() {
-    std::cout << "--DECK--" << std::endl;
-}
-
 
 int main() {
     bool gameProgress = true;
     bool playerOneTurn = true;
-    char tmpVal;
+    char tempVal;
 
     Player playerOne;
     Player playerTwo;
-    Deck card;
+    srand(time(NULL));
+    int seed = rand() % 100;
+    playerOne.InitDeck(seed);
+    playerTwo.InitDeck(seed * 100);
 
     do {
+        std::cout << "\033[2J\033[1;1H";
         std::cout << "          Uno         " << std::endl;
         std::cout << "----------------------" << std::endl;
         
         if (playerOneTurn) {
             std::cout << "PLAYER 1 - PRESS Q TO VIEW YOUR HAND: ";
-            std::cin >> tmpVal;
+            std::cin >> tempVal;
 
-            if (tmpVal == 'Q') {
+            if (tempVal == 'Q') {
                 displayHand(playerOne);
-                showDeck();
-                placeCard(playerOne, card);
+                std::cin >> tempVal;
+                //placeCard(playerOne);
             }
 
-            gameProgress = false;
+            playerOneTurn = false;
         }
         else {
             std::cout << "PLAYER 2 - PRESS Q TO VIEW YOUR HAND: ";
-            std::cin >> tmpVal;
+            std::cin >> tempVal;
 
-            if (tmpVal == 'Q') {
+            if (tempVal == 'Q') {
                 displayHand(playerTwo);
-                showDeck();
-                placeCard(playerTwo, card);
+                std::cin >> tempVal;
+
             }
+            playerOneTurn = true;
         }
 
     }while (gameProgress);

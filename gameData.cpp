@@ -2,134 +2,113 @@
 #include <vector>
 #include <string>
 #include <stdlib.h>
+#include <stack>
 
-class Cards {
-        std::vector<int> cardHand;
-        std::vector<char> cardColor;
-    public:
-        Cards();
-        std::vector<int> returnCardHand() {
-            return cardHand;
+
+class Card {
+        char color;
+        int number;
+    public:    
+        Card(int seed) {
+            getRandomCard(seed);
         }
-        int returnCard(int i) {
-            return cardHand.at(i);
+
+        void getRandomCard(int seed) {
+            srand (seed);
+            number = rand() % 12 + 1;
+
+            int tempVal = rand() % 4 + 1;
+            switch (tempVal) {
+                case 1: color = 'R';
+                        break;
+                case 2: color = 'B';
+                        break;
+                case 3: color = 'G';
+                        break;
+                case 4: color = 'Y';
+                        break;
+            }
         }
-        char returnColor(int i) {
-            return cardColor.at(i);
-        }
+        void DisplayCard();
 };
 
-class Player: public Cards {
-        // Player score, highest no of cards, stats
-    public:
-        Player();
-        void DisplayCards();
-              
-};
-
-//------------- Card deck Linked list -------------
-
-struct node {
-    int cardNumber;
-    char cardColor;
-    node *next;
-};
 
 class Deck {
-    node *head, *tail;
+        std::vector<Card*> cardHand;
     public:
-        Deck() {
-            head = NULL;
-            tail = NULL;
+        void Init(int seed) {
+            cardHand.resize(7);
+            for (int i = 0; i < 7; i++) {
+                cardHand[i] = new Card(i * seed);
+            }
         }
-        void PlaceCard(int a, int b);
-        void Display() {
-            std::cout << head->cardNumber;
+        void Display();     
+};
+
+class Player {
+        // Player score, highest no of cards, stats
+        Deck deck;
+        int highestNumCards;
+    public:
+        void InitDeck(int seed) { 
+            deck.Init(seed);
+            highestNumCards = 7;
         }
+
+        void DisplayDeck();
+              
 };
 
 //------------- FUNCTIONS ---------------
 
-Cards::Cards() {
-    srand (time(NULL));
-    for (int i = 0; i  < 7; i++) {
-        cardHand.push_back(rand() % 12 + 1);   
-        int tempVal = rand() % 4 + 1;
-        if (tempVal == 1) {
-            cardColor.push_back('R');
-        }
-        else if (tempVal == 2) {
-            cardColor.push_back('B');
-        }
-        else if (tempVal == 3) {
-            cardColor.push_back('G');
-        }
-        else {
-            cardColor.push_back('Y');
-        }
+void Card::DisplayCard() {
+    std::string display = "";
+    if (color == 'R') {
+        display.append("\x1b[31m");
     }
-}
+    else if (color == 'B') {
+            display.append("\x1b[34m");
+    }
+    else if (color == 'G') {
+        display.append("\x1b[32m");
+    }
+    else if (color == 'Y') {
+        display.append("\x1b[33m");
+    }
 
-Player::Player() {
-    
-}
-void Player::DisplayCards() {
-    for (int i = 0; i < 7; i++) {
-        int tempVal = returnCard(i);
-        std::string color;
-
-        if (returnColor(i) == 'R') {
-            color.append("\x1b[31m");
-        }
-        else if (returnColor(i) == 'B') {
-            color.append("\x1b[34m");
-        }
-        else if (returnColor(i) == 'G') {
-            color.append("\x1b[32m");
-        }
-        else if (returnColor(i) == 'Y') {
-            color.append("\x1b[33m");
-        }
-
-        if (tempVal >= 10) {
-            color.append("\x1b[0m");
-        }
-        std::cout << color + "--------------" << std::endl;
-            for (int j = 0; j < 8; j++) {
-                if (j != 4)
-                    std::cout << "|            |" << std::endl;
-                else {      
-                    if (tempVal == 10) {
-                        std::cout <<  "|     +2     |" << std::endl;
-                    }
-                    else if (tempVal == 11) {
-                        std::cout <<  "|     +4     |" << std::endl;
-                    }
-                    else if (tempVal == 12) {
-                        std::cout <<  "|Color change|" << std::endl;
-                    }        
-                    else {
-                        std::cout <<  "|     " << tempVal << "      |" << std::endl;
-                    }
-                } 
+    if (number >= 10) {
+        display.append("\x1b[0m");
+    }
+    std::cout << display + "--------------" << std::endl;
+    for (int j = 0; j < 8; j++) {
+        if (j != 4)
+            std::cout << "|            |" << std::endl;
+        else {      
+            if (number == 10) {
+                std::cout <<  "|     +2     |" << std::endl;
             }
-        std::cout << "--------------" << std::endl;;   
-    } 
-    std::cout << "\x1b[0m@@@";
+            else if (number == 11) {
+                std::cout <<  "|     +4     |" << std::endl;
+            }
+            else if (number == 12) {
+                std::cout <<  "|Color change|" << std::endl;
+            }        
+            else {
+                std::cout <<  "|     " << number << "      |" << std::endl;
+                }
+        } 
+    }
+    std::cout << "--------------" << std::endl;;   
+     
+    std::cout << "\x1b[0m";
 }
 
-void Deck::PlaceCard(int a, int b) {
-        node *tempVal = new node;
-        tempVal->cardNumber = a;
-        tempVal->cardColor = b;
-        tempVal->next = NULL;
-
-        if(head == NULL) {
-            head = tempVal;
-            tail = tempVal;
-        }
-        else {
-            tail->next = tempVal;
-            tail = tail->next;
-        }
+void Deck::Display() {
+    for (int i = 0; i < cardHand.size(); i++) {
+        cardHand[i]->DisplayCard();
     }
+}
+
+void Player::DisplayDeck() {
+    deck.Display();
+}
