@@ -18,10 +18,11 @@ int main() {
 
     Player playerOne;
     Player playerTwo;
-    srand(time(NULL));
-    int seed = rand() % 100;
-    playerOne.InitDeck(seed);
-    playerTwo.InitDeck(seed * 100);
+    
+    srand(time(NULL) * 1);
+    playerOne.InitDeck();
+    srand(time(NULL) * 2);
+    playerTwo.InitDeck();
 
     do {
         std::cout << "\033[2J\033[1;1H";

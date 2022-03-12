@@ -9,12 +9,12 @@ class Card {
         char color;
         int number;
     public:    
-        Card(int seed) {
-            getRandomCard(seed);
+        Card() {
+            getRandomCard();
         }
 
-        void getRandomCard(int seed) {
-            srand (seed);
+        void getRandomCard() {
+
             number = rand() % 12 + 1;
 
             int tempVal = rand() % 4 + 1;
@@ -36,10 +36,10 @@ class Card {
 class Deck {
         std::vector<Card*> cardHand;
     public:
-        void Init(int seed) {
+        void Init() {
             cardHand.resize(7);
             for (int i = 0; i < 7; i++) {
-                cardHand[i] = new Card(i * seed);
+                cardHand[i] = new Card();
             }
         }
         void Display();     
@@ -50,8 +50,8 @@ class Player {
         Deck deck;
         int highestNumCards;
     public:
-        void InitDeck(int seed) { 
-            deck.Init(seed);
+        void InitDeck() { 
+            deck.Init();
             highestNumCards = 7;
         }
 
