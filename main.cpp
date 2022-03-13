@@ -1,14 +1,56 @@
-#include "gameData.cpp"
-
+#include "gameData.h"
 
 void displayHand(Player player) {
-    player.DisplayDeck();
+    player.DisplayHand();
 }
 
-void placeCard(Player player) {
-    int tempVal;
-    std::cout << "\n\nEnter card number to place: ";
+bool isValidCard(Card* placedCard, std::vector<Card*> deck) {
+    //Deck is empty at the start of game
+    if (deck.size() == 0)
+        return true;
 
+    Card* topCard = deck.back();
+    
+    //Check if card is valid to place according to uno's rule
+    if (placedCard->getColor() == topCard->getColor() || placedCard->getNumber() == topCard->getNumber()) 
+        return true;
+    
+    return false;
+}
+void placeCard(Player& player, std::vector<Card*> deck) {
+    std::string cardVal;
+    
+    std::cout << "\nEnter card to place(Number/Color): ";
+    std::cin >> cardVal;
+    Card* placedCard = player.FindCard(cardVal);
+    
+    if (placedCard == NULL) {
+        std::cout << "\nInvalid input, Try again";
+
+        //Player re-enter value again
+        placeCard(player, deck);
+    }
+    
+    if (isValidCard(placedCard, deck)) {
+        std::cout << "You placed: " << std::endl;
+        placedCard->DisplayCard();
+        deck.push_back(placedCard);
+        player.DeleteCard(placedCard);
+
+        //Pause to review the card placed 
+        std::cout << "Press Q to pass to the next player";
+        std::cin >> cardVal;
+    }
+    else {
+        std::cout << "Nope, Try again";
+        
+        //Player re-enter value again
+        placeCard(player, deck);
+    }
+}
+
+void displayDeckTop(std::vector<Card*> deck) {
+    deck.back()->DisplayCard();
 }
 
 int main() {
@@ -18,14 +60,18 @@ int main() {
 
     Player playerOne;
     Player playerTwo;
-    
+
+    //Card deck
+    std::vector<Card*> deck;
+
+    //Init unique hands for both players
     srand(time(NULL) * 1);
-    playerOne.InitDeck();
+    playerOne.InitHand();
     srand(time(NULL) * 2);
-    playerTwo.InitDeck();
+    playerTwo.InitHand();
 
     do {
-        std::cout << "\033[2J\033[1;1H";
+        std::cout << CLEAR;
         std::cout << "          Uno         " << std::endl;
         std::cout << "----------------------" << std::endl;
         
@@ -35,8 +81,9 @@ int main() {
 
             if (tempVal == 'Q') {
                 displayHand(playerOne);
-                std::cin >> tempVal;
-                //placeCard(playerOne);
+                placeCard(playerOne, deck);
+            } else {
+                continue;
             }
 
             playerOneTurn = false;
@@ -47,9 +94,11 @@ int main() {
 
             if (tempVal == 'Q') {
                 displayHand(playerTwo);
-                std::cin >> tempVal;
-
+                placeCard(playerTwo, deck);
+            } else {
+                continue;
             }
+
             playerOneTurn = true;
         }
 

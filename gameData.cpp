@@ -1,83 +1,22 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <stdlib.h>
-#include <stack>
-
-
-class Card {
-        char color;
-        int number;
-    public:    
-        Card() {
-            getRandomCard();
-        }
-
-        void getRandomCard() {
-
-            number = rand() % 12 + 1;
-
-            int tempVal = rand() % 4 + 1;
-            switch (tempVal) {
-                case 1: color = 'R';
-                        break;
-                case 2: color = 'B';
-                        break;
-                case 3: color = 'G';
-                        break;
-                case 4: color = 'Y';
-                        break;
-            }
-        }
-        void DisplayCard();
-};
-
-
-class Deck {
-        std::vector<Card*> cardHand;
-    public:
-        void Init() {
-            cardHand.resize(7);
-            for (int i = 0; i < 7; i++) {
-                cardHand[i] = new Card();
-            }
-        }
-        void Display();     
-};
-
-class Player {
-        // Player score, highest no of cards, stats
-        Deck deck;
-        int highestNumCards;
-    public:
-        void InitDeck() { 
-            deck.Init();
-            highestNumCards = 7;
-        }
-
-        void DisplayDeck();
-              
-};
-
-//------------- FUNCTIONS ---------------
+#include "gameData.h"
 
 void Card::DisplayCard() {
     std::string display = "";
     if (color == 'R') {
-        display.append("\x1b[31m");
+        display.append(RED);
     }
     else if (color == 'B') {
-            display.append("\x1b[34m");
+            display.append(BLUE);
     }
     else if (color == 'G') {
-        display.append("\x1b[32m");
+        display.append(GREEN);
     }
     else if (color == 'Y') {
-        display.append("\x1b[33m");
+        display.append(YELLOW);
     }
 
     if (number >= 10) {
-        display.append("\x1b[0m");
+        display.append(DEFAULT);
     }
     std::cout << display + "--------------" << std::endl;
     for (int j = 0; j < 8; j++) {
@@ -98,17 +37,58 @@ void Card::DisplayCard() {
                 }
         } 
     }
+
     std::cout << "--------------" << std::endl;;   
-     
-    std::cout << "\x1b[0m";
+    std::cout << DEFAULT;
 }
 
-void Deck::Display() {
+void Hand::Display() {
     for (int i = 0; i < cardHand.size(); i++) {
         cardHand[i]->DisplayCard();
     }
 }
 
-void Player::DisplayDeck() {
-    deck.Display();
+Card* Hand::Find(std::string cardVal) {
+    int number = (int)cardVal[0] - 48;
+    char color = cardVal[1];
+    
+    //Iterate and find card in hand
+    for (int i = 0; i < cardHand.size(); i++) {
+        char cardColor = cardHand[i]->getColor();
+        int cardNumber = cardHand[i]->getNumber();
+        if (cardColor == color && cardNumber == number) {
+            return cardHand[i];
+        }
+
+    }
+
+    //Card does not exist
+    return NULL;
 }
+
+void Hand::Delete(Card* card) {
+    int number = card->getNumber();
+    int color = card->getColor();
+
+    //Iterate and delete card in hand
+    for (int i = 0; i < cardHand.size(); i++) {
+        if (cardHand[i]->getColor() == color && cardHand[i]->getNumber() == number)  {
+            printf("Regardless");
+            fflush(stdout);        
+            cardHand.erase(cardHand.begin() + i);
+            break;
+        }
+    }
+}
+
+void Player::DisplayHand() {
+    hand.Display();
+}
+
+Card* Player::FindCard(std::string cardVal) {
+    return hand.Find(cardVal);
+}
+
+void Player::DeleteCard(Card* card) {
+    hand.Delete(card);
+} 
