@@ -52,11 +52,9 @@ Card* Hand::Find(std::string cardVal) {
     int number = (int)cardVal[0] - 48;
     char color = cardVal[1];
     
-    //Iterate and find card in hand
+    //Iterate and return card in hand
     for (int i = 0; i < cardHand.size(); i++) {
-        char cardColor = cardHand[i]->getColor();
-        int cardNumber = cardHand[i]->getNumber();
-        if (cardColor == color && cardNumber == number) {
+        if (cardHand[i]->getColor() == color && cardHand[i]->getNumber() == number) {
             return cardHand[i];
         }
 
@@ -72,13 +70,15 @@ void Hand::Delete(Card* card) {
 
     //Iterate and delete card in hand
     for (int i = 0; i < cardHand.size(); i++) {
-        if (cardHand[i]->getColor() == color && cardHand[i]->getNumber() == number)  {
-            printf("Regardless");
-            fflush(stdout);        
+        if (cardHand[i]->getColor() == color && cardHand[i]->getNumber() == number)  {  
             cardHand.erase(cardHand.begin() + i);
             break;
         }
     }
+}
+
+void Hand::Get() {
+    cardHand.push_back(new Card());
 }
 
 void Player::DisplayHand() {
@@ -92,3 +92,7 @@ Card* Player::FindCard(std::string cardVal) {
 void Player::DeleteCard(Card* card) {
     hand.Delete(card);
 } 
+
+void Player::GetNewCard() {
+    hand.Get();
+}

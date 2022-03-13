@@ -17,16 +17,32 @@ bool isValidCard(Card* placedCard, std::vector<Card*> deck) {
     
     return false;
 }
-void placeCard(Player& player, std::vector<Card*> deck) {
+
+void displayDeckTop(std::vector<Card*> deck) {
+    std::cout << "Deck: " << std::endl;
+    deck.back()->DisplayCard();
+}
+
+void placeCard(Player& player, std::vector<Card*>& deck) {
     std::string cardVal;
     
-    std::cout << "\nEnter card to place(Number/Color): ";
+    std::cout << "\nEnter card to place(Number/Color), Type 'new' if you don't have a valid card: ";
     std::cin >> cardVal;
+    if (cardVal == "new") {
+
+        //Get new card and display new hand
+        player.GetNewCard();
+        player.DisplayHand();
+        displayDeckTop(deck);
+        placeCard(player, deck);
+        return;
+    }
+
     Card* placedCard = player.FindCard(cardVal);
     
     if (placedCard == NULL) {
         std::cout << "\nInvalid input, Try again";
-
+ 
         //Player re-enter value again
         placeCard(player, deck);
     }
@@ -47,10 +63,6 @@ void placeCard(Player& player, std::vector<Card*> deck) {
         //Player re-enter value again
         placeCard(player, deck);
     }
-}
-
-void displayDeckTop(std::vector<Card*> deck) {
-    deck.back()->DisplayCard();
 }
 
 int main() {
@@ -74,7 +86,12 @@ int main() {
         std::cout << CLEAR;
         std::cout << "          Uno         " << std::endl;
         std::cout << "----------------------" << std::endl;
-        
+
+        //Display last placed card
+        if (deck.size() > 0) {
+            displayDeckTop(deck);
+        }
+
         if (playerOneTurn) {
             std::cout << "PLAYER 1 - PRESS Q TO VIEW YOUR HAND: ";
             std::cin >> tempVal;
