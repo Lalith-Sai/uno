@@ -81,6 +81,10 @@ void Hand::Get() {
     cardHand.push_back(new Card());
 }
 
+int Hand::GetSize() {
+    return cardHand.size();
+}
+
 void Player::DisplayHand() {
     hand.Display();
 }
@@ -95,4 +99,8 @@ void Player::DeleteCard(Card* card) {
 
 void Player::GetNewCard() {
     hand.Get();
+}
+
+int Player::GetNumCards() {
+    return hand.GetSize();
 }

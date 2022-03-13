@@ -35,13 +35,14 @@ void placeCard(Player& player, std::vector<Card*>& deck) {
         player.DisplayHand();
         displayDeckTop(deck);
         placeCard(player, deck);
+
         return;
     }
 
     Card* placedCard = player.FindCard(cardVal);
     
     if (placedCard == NULL) {
-        std::cout << "\nInvalid input, Try again";
+        std::cout << "\nInvalid input, Try again.";
  
         //Player re-enter value again
         placeCard(player, deck);
@@ -54,17 +55,25 @@ void placeCard(Player& player, std::vector<Card*>& deck) {
         player.DeleteCard(placedCard);
 
         //Pause to review the card placed 
-        std::cout << "Press Q to pass to the next player";
+        std::cout << "Press Q to pass to the next player: ";
         std::cin >> cardVal;
     }
     else {
-        std::cout << "Nope, Try again";
+        std::cout << "Card does not fit in deck, Try again.";
         
         //Player re-enter value again
         placeCard(player, deck);
     }
 }
 
+void checkGameStatus(Player playerOne, Player playerTwo) {
+    if (playerOne.GetNumCards() <= 0) {
+        std::cout << "PLAYER 1 WINS!!!" << std::endl;
+    }
+    else if (playerTwo.GetNumCards() <= 0) {
+        std::cout << "PLAYER 2 WINS!!!" << std::endl;
+    }
+}
 int main() {
     bool gameProgress = true;
     bool playerOneTurn = true;
@@ -118,6 +127,7 @@ int main() {
 
             playerOneTurn = true;
         }
+        checkGameStatus(playerOne, playerTwo);
 
     }while (gameProgress);
     

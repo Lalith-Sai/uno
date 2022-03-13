@@ -64,6 +64,7 @@ class Hand {
         Card* Find(std::string cardVal);
         void Delete(Card* card);
         void Get();
+        int GetSize();
 };
 
 class Player {
@@ -80,6 +81,7 @@ class Player {
         void DeleteCard(Card* card);
         void GetNewCard();
         void DisplayHand();
+        int GetNumCards();
 };
 
 
