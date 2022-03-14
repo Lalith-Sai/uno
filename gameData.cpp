@@ -56,12 +56,12 @@ Card* Hand::Find(std::string cardVal) {
     char color = cardVal[1];
 
     //Number is +2 card
-    if (number == -5 && color - 48 == 2) {
+    if (number == -5 && color == '2') {
         number = PLUS_TWO;
         color = 'W';
     }
     //Number is a +4 card
-    else if (number == -5 && color -48 == 4) {
+    else if (number == -5 && color == '4') {
         number = PLUS_FOUR;
         color = 'W';
     }

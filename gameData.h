@@ -67,6 +67,7 @@ class Hand {
                 cardHand[i] = new Card();
             }
         }
+
         void Display();
         Card* Find(std::string cardVal);
         void Delete(Card* card);

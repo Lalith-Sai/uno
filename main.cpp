@@ -99,6 +99,37 @@ void checkGameStatus(Player playerOne, Player playerTwo) {
         exit(EXIT_SUCCESS);
     }
 }
+
+void addSpecialCards(Player& playerOne, Player& playerTwo, bool playerOneTurn, std::vector<Card*>& deck) {
+    Card* topCard = deck.back();
+    int count = 0;
+
+    if (topCard->getNumber() == PLUS_TWO) {
+        std::cout << "Ouch! You just got a +2 penalty" << std::endl;
+        count = 2;
+    }
+    else if (topCard->getNumber() == PLUS_FOUR) {
+        std::cout << "Ouch! You just got a +4 penalty" << std::endl;
+        count = 4;
+    }
+    else {
+        return;
+    }
+
+    //Add penalty cards to players
+    if (playerOneTurn) {
+        for (int i = 0; i < count; i++) {
+        playerOne.GetNewCard();
+        }
+    }
+    else {
+        for (int i = 0; i < count; i++) {
+        playerTwo.GetNewCard();
+        }
+    }
+
+}
+
 int main() {
     bool gameProgress = true;
     bool playerOneTurn = true;
@@ -124,6 +155,7 @@ int main() {
         //Display last placed card
         if (deck.size() > 0) {
             displayDeckTop(deck);
+            addSpecialCards(playerOne, playerTwo, playerOneTurn, deck);
         }
 
         if (playerOneTurn) {
@@ -155,7 +187,6 @@ int main() {
         checkGameStatus(playerOne, playerTwo);
 
     }while (gameProgress);
-    
     
     return 0;
 }
