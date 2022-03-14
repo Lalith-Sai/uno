@@ -15,10 +15,9 @@ void Card::DisplayCard() {
         case 'Y':
             display.append(YELLOW);
             break;
+        case 'W':
+            display.append(DEFAULT);
     }
-
-    if (number >= 10)
-        display.append(DEFAULT);
 
     std::cout << display + "--------------" << std::endl;
     for (int j = 0; j < 8; j++) {
@@ -55,13 +54,28 @@ void Hand::Display() {
 Card* Hand::Find(std::string cardVal) {
     int number = (int)cardVal[0] - 48;
     char color = cardVal[1];
-    
+
+    //Number is +2 card
+    if (number == -5 && color - 48 == 2) {
+        number = PLUS_TWO;
+        color = 'W';
+    }
+    //Number is a +4 card
+    else if (number == -5 && color -48 == 4) {
+        number = PLUS_FOUR;
+        color = 'W';
+    }
+    //Number is a color change
+    else if (number == 19 && color == 'C') {
+        number = COLOR_CHANGE;
+        color = 'W';
+    }
+
     //Iterate and return card in hand
     for (int i = 0; i < cardHand.size(); i++) {
         if (cardHand[i]->getColor() == color && cardHand[i]->getNumber() == number) {
             return cardHand[i];
         }
-
     }
 
     //Card does not exist

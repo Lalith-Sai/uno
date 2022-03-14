@@ -37,6 +37,10 @@ class Card {
                 case 4: color = 'Y';
                         break;
             }
+
+            //Special cards have white color
+            if (number >= 10)
+                color = 'W';
         }
         void DisplayCard();
         void assignColor(char newColor) {
