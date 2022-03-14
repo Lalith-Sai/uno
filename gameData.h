@@ -11,6 +11,9 @@
 #define YELLOW "\x1b[33m"
 #define DEFAULT "\x1b[0m"
 #define CLEAR "\033[2J\033[1;1H"
+#define PLUS_TWO 10
+#define PLUS_FOUR 11
+#define COLOR_CHANGE 12
 
 class Card {
         char color;

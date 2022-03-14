@@ -26,7 +26,8 @@ void displayDeckTop(std::vector<Card*> deck) {
 void placeCard(Player& player, std::vector<Card*>& deck) {
     std::string cardVal;
     
-    std::cout << "\nEnter card to place(Number/Color), Type 'new' if you don't have a valid card: ";
+    std::cout << "\nEnter card to place(Number/Color), Type 'new' if you don't have a valid card,";
+    std::cout << "\n'+2', '+4' or 'CC' (color change) for special cards: ";
     std::cin >> cardVal;
     if (cardVal == "new") {
 

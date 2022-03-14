@@ -2,39 +2,43 @@
 
 void Card::DisplayCard() {
     std::string display = "";
-    if (color == 'R') {
-        display.append(RED);
-    }
-    else if (color == 'B') {
+    switch(color) {
+        case 'R':
+            display.append(RED);
+            break;
+        case 'B':
             display.append(BLUE);
-    }
-    else if (color == 'G') {
-        display.append(GREEN);
-    }
-    else if (color == 'Y') {
-        display.append(YELLOW);
+            break;
+        case 'G':
+            display.append(GREEN);
+            break;
+        case 'Y':
+            display.append(YELLOW);
+            break;
     }
 
-    if (number >= 10) {
+    if (number >= 10)
         display.append(DEFAULT);
-    }
+
     std::cout << display + "--------------" << std::endl;
     for (int j = 0; j < 8; j++) {
         if (j != 4)
             std::cout << "|            |" << std::endl;
         else {      
-            if (number == 10) {
-                std::cout <<  "|     +2     |" << std::endl;
+            switch(number) {
+                case PLUS_TWO:
+                    std::cout <<  "|     +2     |" << std::endl;
+                    break;
+                case PLUS_FOUR:
+                    std::cout <<  "|     +4     |" << std::endl;
+                    break;
+                case COLOR_CHANGE:
+                    std::cout <<  "|Color change|" << std::endl;
+                    break;
+                default:
+                    std::cout <<  "|     " << number << "      |" << std::endl;
+                    break;
             }
-            else if (number == 11) {
-                std::cout <<  "|     +4     |" << std::endl;
-            }
-            else if (number == 12) {
-                std::cout <<  "|Color change|" << std::endl;
-            }        
-            else {
-                std::cout <<  "|     " << number << "      |" << std::endl;
-                }
         } 
     }
 
