@@ -40,7 +40,6 @@ void changeDeckColor(std::vector<Card*>& deck) {
     std::cin >> color;
     if (color == 'R' || color == 'G' || color == 'Y' || color == 'B') {
         deck.back()->assignColor(color);
-        return;
     }
     else {
         std::cout << "\nInvalid color, enter only first letter of color!" << std::endl;
