@@ -73,7 +73,6 @@ Card* Hand::Find(std::string cardVal) {
 
     //Iterate and return card in hand
     for (int i = 0; i < cardHand.size(); i++) {
-        std::cout << cardHand[i]->getColor() << " " << cardHand[i]->getNumber() << std::endl;
         if (cardHand[i]->getColor() == color && cardHand[i]->getNumber() == number) {
             return cardHand[i];
         }

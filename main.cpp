@@ -34,6 +34,22 @@ void displayDeckTop(std::vector<Card*> deck) {
     deck.back()->DisplayCard();
 }
 
+void changeDeckColor(std::vector<Card*>& deck) {
+    std::cout << "Color change! Pick the color you want to set: ";
+    char color;
+    std::cin >> color;
+    if (color == 'R' || color == 'G' || color == 'Y' || color == 'B') {
+        deck.back()->assignColor(color);
+        return;
+    }
+    else {
+        std::cout << "\nInvalid color, enter only first letter of color!" << std::endl;
+        changeDeckColor(deck);
+        return;
+    }
+    
+}
+
 void placeCard(Player& player, std::vector<Card*>& deck) {
     std::string cardVal;
     
@@ -72,13 +88,12 @@ void placeCard(Player& player, std::vector<Card*>& deck) {
         //+2 card
         if (placedCard->getNumber() == PLUS_TWO)
             std::cout << "You added a +2 card!, Next player gets 2 additional cards" << std::endl;
-        else if (placedCard->getNumber() == PLUS_FOUR)
+        else if (placedCard->getNumber() == PLUS_FOUR) {
             std::cout << "You added a +4 card!, Next player gets 4 additional cards" << std::endl;
+            changeDeckColor(deck);
+        }
         else if (placedCard->getNumber() == COLOR_CHANGE) {
-            std::cout << "Color change!, Pick the color you want to set: ";
-            char color;
-            std::cin >> color;
-            deck.back()->assignColor(color);
+            changeDeckColor(deck);
         }
 
 
