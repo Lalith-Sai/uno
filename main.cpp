@@ -10,10 +10,17 @@ bool isValidCard(Card* placedCard, std::vector<Card*> deck) {
         return true;
 
     //Special cards have no restrictions
-    if (placedCard->getNumber() >= 10)
+    if (placedCard->getNumber() > 10)
         return true;
 
     Card* topCard = deck.back();
+
+    //+2 Card needs to match the color
+    if (placedCard->getNumber() == 10) {
+        if (placedCard->getColor() == topCard->getColor()) 
+            return true;
+    }
+    
     
     //Check if card is valid to place according to uno's rule
     if (placedCard->getColor() == topCard->getColor() || placedCard->getNumber() == topCard->getNumber()) 
@@ -31,7 +38,7 @@ void placeCard(Player& player, std::vector<Card*>& deck) {
     std::string cardVal;
     
     std::cout << "\nEnter card to place(Number/Color), Type 'new' if you don't have a valid card,";
-    std::cout << "\n'+2', '+4' or 'CC' (color change) for special cards: ";
+    std::cout << "\n'+2(color)', '+4' or 'CC' (color change) for special cards: ";
     std::cin >> cardVal;
     if (cardVal == "new") {
 
@@ -148,7 +155,7 @@ int main() {
     playerTwo.InitHand();
 
     do {
-        std::cout << CLEAR;
+        system("clear");
         std::cout << "          Uno         " << std::endl;
         std::cout << "----------------------" << std::endl;
 

@@ -16,80 +16,77 @@
 #define COLOR_CHANGE 12
 
 class Card {
-        char color;
-        int number;
-    public:    
-        Card() {
-            getRandomCard();
+    char color;
+    int number;
+public:    
+    Card() {
+        getRandomCard();
+    }
+
+    void getRandomCard() {
+        number = rand() % 12 + 1;
+
+        int tempVal = rand() % 4 + 1;
+        switch (tempVal) {
+            case 1: color = 'R';
+                    break;
+            case 2: color = 'B';
+                    break;
+            case 3: color = 'G';
+                    break;
+            case 4: color = 'Y';
+                break;
         }
 
-        void getRandomCard() {
-            number = rand() % 12 + 1;
-
-            int tempVal = rand() % 4 + 1;
-            switch (tempVal) {
-                case 1: color = 'R';
-                        break;
-                case 2: color = 'B';
-                        break;
-                case 3: color = 'G';
-                        break;
-                case 4: color = 'Y';
-                        break;
-            }
-
-            //Special cards have white color
-            if (number >= 10)
-                color = 'W';
-        }
-        void DisplayCard();
-        void assignColor(char newColor) {
-            color = newColor;
-        }
-        void assignNumber(int newNumber) {
-            number = newNumber;
-        }
-        char getColor() {
-            return color;
-        }
-        int getNumber() {
-            return number;
-        }
+        //+4 and color change have white color (default)
+        if (number > 10)
+            color = 'W';
+    }
+    void DisplayCard();
+    void assignColor(char newColor) {
+        color = newColor;
+    }
+    char getColor() {
+        return color;
+    }
+    int getNumber() {
+        return number;
+    }
 };
 
 
 class Hand {
-        std::vector<Card*> cardHand;
-    public:
-        void Init() {
-            cardHand.resize(7);
-            for (int i = 0; i < 7; i++) {
-                cardHand[i] = new Card();
-            }
+    std::vector<Card*> cardHand;
+public:
+    void Init() {
+        cardHand.resize(7);
+        for (int i = 0; i < 7; i++) {
+            cardHand[i] = new Card();
         }
+    }
 
-        void Display();
-        Card* Find(std::string cardVal);
-        void Delete(Card* card);
-        void Get();
-        int GetSize();
+    void Display();
+    Card* Find(std::string cardVal);
+    void Delete(Card* card);
+    void Get();
+    int GetSize();
 };
 
 class Player {
-        // Player score, highest no of cards, stats
-        Hand hand;
-        int highestNumCards;
-    public:
-        void InitHand() { 
-            hand.Init();
-            highestNumCards = 7;
-        }
+    // Player score, highest no of cards, stats
+    Hand hand;
+    int highestNumCards;
+public:
+    void InitHand() { 
+        hand.Init();
+        highestNumCards = 7;
+    }
 
-        Card* FindCard(std::string cardVal);
-        void DeleteCard(Card* card);
-        void GetNewCard();
-        void DisplayHand();
-        int GetNumCards();
+    Card* FindCard(std::string cardVal);
+    void DeleteCard(Card* card);
+    void GetNewCard();
+    void DisplayHand();
+    int GetNumCards();
 };
 
 

@@ -55,17 +55,17 @@ Card* Hand::Find(std::string cardVal) {
     int number = (int)cardVal[0] - 48;
     char color = cardVal[1];
 
-    //Number is +2 card
+    //Card is +2 
     if (number == -5 && color == '2') {
         number = PLUS_TWO;
-        color = 'W';
+        color = cardVal[2];
     }
-    //Number is a +4 card
+    //Card is +4 card
     else if (number == -5 && color == '4') {
         number = PLUS_FOUR;
         color = 'W';
     }
-    //Number is a color change
+    //Card is a color change
     else if (number == 19 && color == 'C') {
         number = COLOR_CHANGE;
         color = 'W';
@@ -73,6 +73,7 @@ Card* Hand::Find(std::string cardVal) {
 
     //Iterate and return card in hand
     for (int i = 0; i < cardHand.size(); i++) {
+        std::cout << cardHand[i]->getColor() << " " << cardHand[i]->getNumber() << std::endl;
         if (cardHand[i]->getColor() == color && cardHand[i]->getNumber() == number) {
             return cardHand[i];
         }
