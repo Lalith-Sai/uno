@@ -209,5 +209,6 @@ int main() {
 
     }while (gameProgress);
     
+    std::cout << "test amend commit";
     return 0;
 }
