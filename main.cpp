@@ -6,17 +6,17 @@ void displayHand(Player player) {
 
 bool isValidCard(Card* placedCard, std::vector<Card*> deck) {
     //Deck is empty at the start of game
-    if (deck.size() == 0)
+    if (deck.empty())
         return true;
 
     //Special cards have no restrictions
-    if (placedCard->getNumber() > 10)
+    if (placedCard->getNumber() > PLUS_TWO)
         return true;
 
     Card* topCard = deck.back();
 
     //+2 Card needs to match the color
-    if (placedCard->getNumber() == 10) {
+    if (placedCard->getNumber() == PLUS_TWO) {
         if (placedCard->getColor() == topCard->getColor()) 
             return true;
     }
